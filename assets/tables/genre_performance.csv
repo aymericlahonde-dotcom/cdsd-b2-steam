@@ -1,0 +1,18 @@
+genre,nb_games,avg_positive_rate,avg_popularity_score,avg_price_eur
+free to play,3393,0.722,3.841,0.29
+massively multiplayer,1460,0.629,3.374,5.0
+rpg,9534,0.731,3.167,9.04
+simulation,10836,0.694,2.941,9.09
+adventure,21431,0.739,2.937,8.01
+strategy,10895,0.719,2.924,8.4
+action,23759,0.73,2.851,7.73
+indie,39681,0.742,2.756,6.57
+racing,2155,0.702,2.751,8.22
+animation & modeling,322,0.707,2.749,18.78
+sports,2666,0.698,2.676,8.95
+design & illustration,406,0.721,2.637,19.06
+casual,22086,0.743,2.531,5.61
+video production,247,0.68,2.514,18.96
+utilities,682,0.699,2.484,11.45
+early access,6145,0.707,2.432,8.75
+education,317,0.685,1.936,14.34

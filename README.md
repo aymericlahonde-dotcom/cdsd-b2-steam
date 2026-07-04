@@ -23,20 +23,33 @@ s3://full-stack-bigdata-datasets/Big_Data/Project_Steam/steam_game_output.json
 
 Pas besoin de credentials — bucket en accès public lecture pour les apprenants Jedha.
 
+## Résultats clés (dataset réel, 55 691 jeux)
+
+- **Catalogue** : longue traîne d'éditeurs (top : Big Fish Games, 422 jeux) ; explosion des sorties à partir de 2014, pic à **8 805 jeux en 2021**.
+- **Genres** : Indie (39,7k), Action (23,8k), Casual (22,1k), Adventure (21,4k).
+- **Prix** : 14 % des jeux gratuits, prix médian **4,99 €**, prix moyen payant **8,99 €**.
+- **Plateformes** : Windows 100 %, Mac 22,9 %, Linux 15,2 %.
+- **Succès** : le taux de « hits » passe de 6,9 % (1 OS) à 17,9 % (3 OS) et de 3,5 % (<5 €) à 29,8 % (20-40 €). Une régression logistique MLlib atteint **AUC ≈ 0,72**, avec le nombre de plateformes comme 1ᵉʳ facteur.
+
 ## Livrable
 
-- 2 notebooks PySpark : EDA + analyses statistiques
-- Un dashboard Databricks (`STEAM_Project_Dashboard.lvdash.json`) à importer dans Databricks pour visualiser les résultats
+- 2 notebooks PySpark **exécutés** (sorties + graphiques visibles) : EDA + modèles statistiques
+- Un dashboard Databricks (`STEAM_Project_Dashboard.lvdash.json`) à importer dans Databricks
+- Exports visuels (`assets/*.png`) et tables du dashboard en CSV (`assets/tables/*.csv`)
 
 ## Structure du projet
 
 ```
 Bloc_2_Steam/
 ├── notebooks/
-│   ├── 01_steam_eda.ipynb              (EDA macro + genres + plateformes)
-│   └── 02_steam_stat_models.ipynb      (analyses statistiques approfondies)
+│   ├── 01_steam_eda.ipynb              (EDA macro + genres + plateformes + prix)
+│   └── 02_steam_stat_models.ipynb      (baseline règle + régression logistique MLlib)
 ├── dashboards/
 │   └── STEAM_Project_Dashboard.lvdash.json  (à importer dans Databricks)
+├── assets/
+│   ├── 01_top_publishers.png … 07_success_by_platforms.png  (graphiques)
+│   └── tables/*.csv                    (données des 6 tables du dashboard)
+├── Presentation_Steam.pptx
 └── README.md
 ```
 
@@ -44,16 +57,21 @@ Bloc_2_Steam/
 
 **Option recommandée — Databricks Community** (gratuit) :
 1. Créer un compte sur <https://community.cloud.databricks.com/>
-2. Créer un cluster gratuit (single-node, 15 GB RAM)
-3. Importer les notebooks via "Workspace → Import"
-4. Importer le dashboard via "Dashboards → Import"
-5. Run all
+2. Créer un cluster gratuit (single-node)
+3. Importer les notebooks via "Workspace → Import" puis le dashboard via "Dashboards → Import"
+4. Run all (les tables sont écrites dans le schéma `default` qui alimente le dashboard)
 
-**Option locale** (plus complexe — Java + Spark requis) :
+**Option locale** (Java 17-21 + Spark) — les notebooks détectent automatiquement l'absence de Databricks :
 ```bash
-pip install pyspark==3.5.*
+pip install pyspark==3.5.3 pandas matplotlib nbconvert ipykernel
+# télécharger le dataset une fois :
+#   https://full-stack-bigdata-datasets.s3.eu-west-3.amazonaws.com/Big_Data/Project_Steam/steam_game_output.json
+export STEAM_JSON=/chemin/vers/steam_game_output.json   # sinon fallback S3
+jupyter notebook   # puis Run All
 ```
-Lancer un notebook Jupyter avec un kernel PySpark configuré.
+En local, un `SparkSession local[*]` est créé automatiquement, `display()` rend des tables pandas
+et les tables du dashboard sont exportées en CSV dans `assets/tables/` (le métastore Hive n'étant
+pas requis hors Databricks).
 
 ## Auteur
 

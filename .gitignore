@@ -27,6 +27,15 @@ dist/
 # Jupyter
 .ipynb_checkpoints/
 
+# Spark (execution locale)
+spark-warehouse/
+metastore_db/
+derby.log
+*.crc
+
+# Dataset Steam (63 Mo, telecharge depuis S3 public)
+steam_game_output.json
+
 # Environment / secrets
 .env
 .env.local
